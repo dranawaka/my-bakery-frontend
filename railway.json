@@ -1,19 +1,14 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS"
+    "builder": "NIXPACKS",
+    "buildCommand": "npm run build"
   },
   "deploy": {
-    "startCommand": "npm run serve",
-    "healthcheckPath": "/health",
-    "healthcheckTimeout": 600,
+    "startCommand": "npm run start:prod",
+    "healthcheckPath": "/",
+    "healthcheckTimeout": 100,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
-  },
-  "variables": {
-    "REACT_APP_API_URL": "https://endearing-essence-production.up.railway.app/api",
-    "CI": "false",
-    "SKIP_PREFLIGHT_CHECK": "true",
-    "NODE_ENV": "production"
   }
 }
