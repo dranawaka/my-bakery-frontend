@@ -25,10 +25,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "set \"GENERATE_SOURCEMAP=false\" && set \"SKIP_PREFLIGHT_CHECK=true\" && set \"TSC_COMPILE_ON_ERROR=true\" && react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false SKIP_PREFLIGHT_CHECK=true TSC_COMPILE_ON_ERROR=true react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serve": "node server.js",
+    "start:prod": "node server.js",
     "type-check": "tsc --noEmit",
     "type-check:watch": "tsc --noEmit --watch"
   },
