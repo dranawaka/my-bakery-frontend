@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -7,9 +7,11 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 const Header: React.FC = () => {
   const { user, logout } = useAuth();
   const { totalItems } = useCart();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
+    navigate('/login');
   };
 
   return (
@@ -25,18 +27,18 @@ const Header: React.FC = () => {
         </Link>
         <div className="dropdown">
           <button 
-            className="btn btn-sm btn-outline-secondary dropdown-toggle" 
+            className="btn btn-sm btn-outline-secondary dropdown-toggle user-dropdown-btn" 
             type="button" 
             data-bs-toggle="dropdown" 
             aria-expanded="false"
           >
             <i className="bi bi-person-circle me-1"></i>
-            <span>{user?.firstName || 'User'}</span>
+            <span>{user?.firstName || ''}</span>
           </button>
           <ul className="dropdown-menu dropdown-menu-end">
-            <li><a className="dropdown-item" href="#profile">Profile</a></li>
-            <li><hr className="dropdown-divider" /></li>
-            <li><a className="dropdown-item" href="#" onClick={handleLogout}>Logout</a></li>
+            <li><button className="dropdown-item" onClick={handleLogout}>
+              <i className="bi bi-box-arrow-right me-2"></i>Logout
+            </button></li>
           </ul>
         </div>
       </div>
