@@ -1,0 +1,17 @@
+[phases.setup]
+nixPkgs = ["nodejs_18", "npm-9_x"]
+
+[phases.install]
+cmds = ["npm ci"]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "npm run serve"
+
+[variables]
+NODE_ENV = "production"
+CI = "false"
+SKIP_PREFLIGHT_CHECK = "true"
+GENERATE_SOURCEMAP = "false"
