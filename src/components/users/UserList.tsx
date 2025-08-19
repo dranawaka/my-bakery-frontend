@@ -156,6 +156,33 @@ const UserList: React.FC = () => {
         </Alert>
       )}
 
+      {/* Admin Users Warning */}
+      {users.some(user => user.role === 'ADMIN') && (
+        <Card className="mb-4 border-danger">
+          <Card.Body className="bg-light">
+            <div className="d-flex justify-content-between align-items-center">
+              <div>
+                <h5 className="text-danger mb-2">
+                  <i className="bi bi-exclamation-triangle me-2"></i>
+                  Admin Users Detected
+                </h5>
+                <p className="mb-0 text-muted">
+                  There are admin users in the system. You can remove them using the delete button below.
+                </p>
+              </div>
+              <Button 
+                variant="outline-danger" 
+                size="sm"
+                onClick={() => setRoleFilter('ADMIN')}
+              >
+                <i className="bi bi-eye me-1"></i>
+                View Admin Users
+              </Button>
+            </div>
+          </Card.Body>
+        </Card>
+      )}
+
       {/* Filters */}
       <Card className="mb-4">
         <Card.Body>
@@ -251,7 +278,10 @@ const UserList: React.FC = () => {
               </thead>
               <tbody>
                 {paginatedUsers.map((user) => (
-                  <tr key={user.id}>
+                  <tr 
+                    key={user.id} 
+                    className={user.role === 'ADMIN' ? 'table-danger' : ''}
+                  >
                     <td>
                       <div className="d-flex align-items-center">
                         <div className="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" 
@@ -261,8 +291,14 @@ const UserList: React.FC = () => {
                           </span>
                         </div>
                         <div>
-                          <div className="fw-semibold">
+                          <div className="fw-semibold d-flex align-items-center">
                             {user.firstName} {user.lastName}
+                            {user.role === 'ADMIN' && (
+                              <span className="badge bg-danger ms-2">
+                                <i className="bi bi-exclamation-triangle me-1"></i>
+                                ADMIN
+                              </span>
+                            )}
                           </div>
                           {user.emailVerified && (
                             <small className="text-success">

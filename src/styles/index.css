@@ -100,6 +100,62 @@ main {
   border-color: #0062cc;
 }
 
+/* Dropdown Styles */
+.dropdown-item {
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 1rem;
+  color: #212529;
+  text-decoration: none;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: #16181b;
+}
+
+.dropdown-item:focus {
+  background-color: #e9ecef;
+  color: #16181b;
+  outline: none;
+}
+
+.dropdown-item i {
+  width: 16px;
+  text-align: center;
+}
+
+/* User Dropdown Button */
+.user-dropdown-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-dropdown-btn .badge {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Ensure dropdown works properly */
+.dropdown-menu {
+  z-index: 1000;
+}
+
+.dropdown-item {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
 /* Custom Bakery Colors */
 :root {
   --bakery-primary: #8B4513;

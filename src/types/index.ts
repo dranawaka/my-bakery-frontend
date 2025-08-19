@@ -108,6 +108,123 @@ export interface SalesData {
   orders: number;
 }
 
+// Report types
+export interface ReportTemplate {
+  id: string;
+  name: string;
+  description: string;
+  category: 'sales' | 'inventory' | 'financial' | 'customer' | 'product' | 'operations';
+  frequency: 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly';
+  dataSource: string[];
+  format: 'chart' | 'table' | 'both';
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ReportData {
+  salesData: SalesDataPoint[];
+  orderStatusData: OrderStatusData[];
+  topProducts: ProductPerformance[];
+  customerMetrics: CustomerMetric[];
+  revenueByCategory: CategoryRevenue[];
+  dailyOrders: DailyOrderData[];
+  inventoryLevels: InventoryLevel[];
+  financialMetrics: FinancialMetric[];
+}
+
+export interface SalesDataPoint {
+  date: string;
+  revenue: number;
+  orders: number;
+  customers: number;
+  averageOrderValue: number;
+}
+
+export interface OrderStatusData {
+  status: string;
+  count: number;
+  percentage: number;
+  revenue: number;
+}
+
+export interface ProductPerformance {
+  id: string;
+  name: string;
+  category: string;
+  sales: number;
+  revenue: number;
+  profit: number;
+  profitMargin: number;
+  stockLevel: number;
+}
+
+export interface CustomerMetric {
+  metric: string;
+  value: number | string;
+  change: string;
+  trend: 'up' | 'down' | 'stable';
+  previousValue?: number | string;
+}
+
+export interface CategoryRevenue {
+  category: string;
+  revenue: number;
+  percentage: number;
+  orderCount: number;
+  averageOrderValue: number;
+}
+
+export interface DailyOrderData {
+  date: string;
+  orders: number;
+  revenue: number;
+  averageOrderValue: number;
+}
+
+export interface InventoryLevel {
+  productId: string;
+  productName: string;
+  category: string;
+  currentStock: number;
+  reorderPoint: number;
+  maxStock: number;
+  status: 'low' | 'normal' | 'high' | 'out';
+  lastUpdated: string;
+}
+
+export interface FinancialMetric {
+  period: string;
+  revenue: number;
+  expenses: number;
+  profit: number;
+  profitMargin: number;
+  growthRate: number;
+}
+
+export interface ReportFilter {
+  startDate: string;
+  endDate: string;
+  reportType: string;
+  category?: string;
+  productId?: string;
+  customerId?: string;
+  status?: string;
+}
+
+export interface ScheduledReport {
+  id: string;
+  templateId: string;
+  template: ReportTemplate;
+  frequency: string;
+  time: string;
+  recipients: string[];
+  isActive: boolean;
+  lastGenerated?: string;
+  nextGeneration?: string;
+  createdAt: string;
+}
+
 // Form types
 export interface ProductFormData {
   name: string;
