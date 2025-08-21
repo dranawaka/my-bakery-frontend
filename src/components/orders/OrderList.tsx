@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Table, Button, Badge, Alert, Spinner, Modal, Form, InputGroup, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import api from '../../services/api';
+import ordersService from '../../services/orders';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const OrderList: React.FC = () => {
@@ -22,8 +22,8 @@ const OrderList: React.FC = () => {
   const loadOrders = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/orders');
-      setOrders(response.data || []);
+      const orders = await ordersService.getOrders();
+      setOrders(orders);
     } catch (err) {
       setError('Failed to load orders');
       console.error('Error loading orders:', err);
@@ -34,9 +34,7 @@ const OrderList: React.FC = () => {
 
   const handleStatusUpdate = async (orderId, newStatus) => {
     try {
-      await api.put(`/orders/${orderId}/status`, null, {
-        params: { status: newStatus }
-      });
+      await ordersService.updateOrderStatus(orderId, newStatus);
       setOrders(orders.map(order => 
         order.id === orderId ? { ...order, status: newStatus } : order
       ));
@@ -51,7 +49,7 @@ const OrderList: React.FC = () => {
     
     try {
       setCancelling(true);
-      await api.put(`/orders/${orderToCancel.id}/cancel`);
+      await ordersService.cancelOrder(orderToCancel.id);
       setOrders(orders.map(order => 
         order.id === orderToCancel.id ? { ...order, status: 'CANCELLED' } : order
       ));

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Card, Row, Col, Badge, Button, Spinner, Alert, Table, Modal } from 'react-bootstrap';
-import api from '../../services/api';
+import ordersService from '../../services/orders';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const OrderDetail: React.FC = () => {
@@ -21,8 +21,8 @@ const OrderDetail: React.FC = () => {
   const loadOrder = async () => {
     try {
       setLoading(true);
-      const response = await api.get(`/orders/${id}`);
-      setOrder(response.data);
+      const order = await ordersService.getOrder(id);
+      setOrder(order);
     } catch (err) {
       setError('Failed to load order details');
       console.error('Error loading order:', err);
@@ -33,9 +33,7 @@ const OrderDetail: React.FC = () => {
 
   const handleStatusUpdate = async (newStatus) => {
     try {
-      await api.put(`/orders/${id}/status`, null, {
-        params: { status: newStatus }
-      });
+      await ordersService.updateOrderStatus(id, newStatus);
       setOrder({ ...order, status: newStatus });
     } catch (err) {
       setError('Failed to update order status');
@@ -46,7 +44,7 @@ const OrderDetail: React.FC = () => {
   const handleCancelOrder = async () => {
     try {
       setCancelling(true);
-      await api.put(`/orders/${id}/cancel`);
+      await ordersService.cancelOrder(id);
       setOrder({ ...order, status: 'CANCELLED' });
       setShowCancelModal(false);
     } catch (err) {

@@ -3,7 +3,7 @@ import { Card, Form, Button, Alert, Spinner, Row, Col, Table, Badge } from 'reac
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
-import api from '../../services/api';
+import ordersService from '../../services/orders';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const Checkout: React.FC = () => {
@@ -119,12 +119,11 @@ const Checkout: React.FC = () => {
         orderData.shippingAddress = formData.shippingAddress;
       }
 
-      const orderResponse = await api.post('/orders', orderData);
-      const order = orderResponse.data;
+      const order = await ordersService.createOrder(orderData);
 
       // Process payment if not cash
       if (formData.paymentMethod !== 'CASH') {
-        await api.post('/payments/process', {
+        await ordersService.processPayment({
           orderId: order.id,
           paymentMethod: formData.paymentMethod
         });
